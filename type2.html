@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* #hado {
+            text-align: left;
+        } */
+
+        body {
+            text-align: center;
+        }
+
+
+        /* .syoryu { */
+        /* text-align: right; */
+        /* } */
+        /* #train {
+            position: relative;
+            cursor: pointer;
+        } */
+    </style>
+</head>
+
+<body>
+    <h1>タイピングゲーム</h1>
+    <button id="btn_start">Start</button>
+    <div id="game" style="display:none;">
+        <h1 id="subject"></h1>
+        <p id="timer"></p>
+        <p id="timer2"></p>
+        <input type="text" id="form"><button id="btn" type="submit">送信</button>
+    </div>
+    <!-- <div class="syoryu"> -->
+    <!-- <img id="hado" src="img/波動拳.gif" alt=""> -->
+    <!-- </div> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        //  波動拳を左から右に移動する
+        // hado.onclick = function () {
+        //     let start = Date.now(); // 開始時間を覚える
+
+        //     let time = setInterval(function () {
+        //         // 開始からの経過時間
+        //         let timePassed = Date.now() - start;
+
+        //         if (timePassed >= 2000) {
+        //             clearInterval(time); // 2秒後にアニメーションが終了
+        //             return;
+        //         }
+
+        //         // timePassed 時点のアニメーションを描画
+        //         draw(timePassed);
+
+        //     }, 20);
+
+
+        //     function draw(timePassed) {
+        //         train.style.left = timePassed / 5 + 'px';
+        //     }
+        // }
+
+
+        $("#btn_start").click(function () {
+            // if (start_style = "none") {
+            // ゲームを表示
+            $("#game").css("display", "block");
+
+
+
+
+
+            const subject = document.getElementById('subject');
+            const timer = document.getElementById('timer');
+            const form = document.querySelector('#form');
+            // 問題文
+            const textList = [
+                'Hello World',
+                'syo RYu KeN',
+                'I love Street FighteR',
+                'This is My fighter',
+                'Welcome HoMe',
+                "HaDooo kennn"
+
+            ];
+
+
+            // 問題文,フォーム
+            function init() {
+                const rnd = Math.floor(Math.random() * textList.length);
+
+                subject.textContent = textList[rnd];
+                form.value = '';
+                form.focus();
+            }
+            // 全体の制限時間
+            let TIME = 61;
+            let count = 0;
+            let state = true;
+
+            const countdown = setInterval(function () {
+                timer.textContent = '制限時間：' + --TIME + '秒';
+
+                if (TIME <= 0) finish();
+            }, 1000);
+
+
+
+            // 一問ごとの制限時間
+            let one_time = 21;
+            let one_state = true;
+
+            const one_countdown = setInterval(function () {
+                timer2.textContent = '次の問題まで' + --one_time + '秒';
+                if (one_time <= 0) {
+                    init();
+                    one_time = 21;
+                }
+                else if (TIME <= 0) {
+                    finish();
+                }
+
+            }, 1000);
+            init();
+
+            // 送信ボタンの処理
+            document.getElementById('btn').addEventListener('click', function (e) {
+                // 問題文の変換処理
+
+                // 全ての空白を削除する
+                let question_trimmed = subject.textContent.replace(/ /g, "");
+                // 空白にしたものを小文字に変換
+                let quastion_change = question_trimmed.toLowerCase();
+
+                // 入力文の変換処理
+
+                // 全ての空白を削除する
+                let answer_trimmed = form.value.replace(/ /g, "");
+                // 空白を削除したものを小文字に変換
+                let answer_change = answer_trimmed.toLowerCase();
+
+
+                if (quastion_change === answer_change) {
+                    count++;
+                    init();
+                    one_time = 21;
+                }
+
+
+                else {
+                    subject.textContent = '間違いです!!';
+                    setTimeout(function () { init() }, 1000)
+                    one_time = 21;
+                }
+            });
+
+
+            function finish() {
+
+                clearInterval(countdown);
+                clearInterval(one_countdown);
+                one_time = 0;
+
+                subject.textContent = '正解数は' + count + '個でした！';
+                state = false;
+            }
+        })
+
+    </script>
+</body>
+
+</html>

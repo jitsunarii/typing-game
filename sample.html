@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <img id="my_image" src="img/neko.jpeg" alt="画像1">
+    <button onclick="changeImage()">画像をへんこう</button>
+    <script>
+
+        function changeImage() {
+            let image = document.getElementById("my_image");
+            // ここで画像のsrc属性を変更する
+            image.src = "img/ダウンロード.jpeg"; // 新しい画像のパスに置き換える
+            image.alt = "新しい画像"; // 新しい画像のalt属性に置き換える
+        }
+        ;
+    </script>
+
+</body>
+</body>
+
+</html>
